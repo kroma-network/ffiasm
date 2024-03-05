@@ -1,0 +1,15 @@
+load("@aspect_rules_js//js:defs.bzl", "js_binary")
+load("@npm//:defs.bzl", "npm_link_all_packages")
+
+package(default_visibility = ["//visibility:public"])
+
+npm_link_all_packages(name = "node_modules")
+
+js_binary(
+    name = "buildzqfield",
+    data = glob([
+        "src/*.ejs",
+        "src/*.js",
+    ]) + [":node_modules"],
+    entry_point = "src/buildzqfield.js",
+)
