@@ -71,11 +71,10 @@ if (runningAsScript) {
     const asmFileName =  (argv.oa) ? argv.oa : argv.name.toLowerCase() + ".asm";
     const hFileName =  (argv.oh) ? argv.oh : argv.name.toLowerCase() + ".hpp";
     const cFileName =  (argv.oc) ? argv.oc : argv.name.toLowerCase() + ".cpp";
-    const hElementFileName =  (argv.oc) ? argv.oc : argv.name.toLowerCase() + "_element.hpp";
-    const cGenericFileName =  (argv.oc) ? argv.oc : argv.name.toLowerCase() + "_generic.cpp";
-    const cRawGenericFileName =  (argv.oc) ? argv.oc : argv.name.toLowerCase() + "_raw_generic.cpp";
-    const sRawArm64FileName =  (argv.oc) ? argv.oc : argv.name.toLowerCase() + "_raw_arm64.s";
-
+    const hElementFileName =  (argv.oelemh) ? argv.oelemh : argv.name.toLowerCase() + "_element.hpp";
+    const cGenericFileName =  (argv.ogenc) ? argv.ogenc : argv.name.toLowerCase() + "_generic.cpp";
+    const cRawGenericFileName =  (argv.orawgenc) ? argv.orawgenc : argv.name.toLowerCase() + "_raw_generic.cpp";
+    const sRawArm64FileName =  (argv.oarm64s) ? argv.oarm64s : argv.name.toLowerCase() + "_raw_arm64.s";
 
     buildField(q, argv.name).then( (res) => {
         fs.writeFileSync(asmFileName, res.asm, "utf8");
