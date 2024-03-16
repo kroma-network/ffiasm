@@ -11,12 +11,14 @@ const montgomeryBuilder = require("./montgomerybuilder");
 const armBuilder = require("./armbuilder");
 
 class ZqBuilder {
-    constructor(q, name) {
+    constructor(q, name, hpp, element_hpp) {
         const self = this;
         this.q=bigInt(q);
         this.n64 = Math.floor((this.q.bitLength() - 1) / 64)+1;
         this.canOptimizeConsensys = this.q.shiftRight((this.n64-1)*64).leq( bigInt.one.shiftLeft(64).minus(1).shiftRight(1).minus(1) );
         this.name = name;
+        this.hpp = hpp;
+        this.element_hpp = element_hpp;
         this.bigInt = bigInt;
         this.lastTmp=0;
         this.global = {};
@@ -43,8 +45,8 @@ class ZqBuilder {
 
 }
 
-async function buildField(q, name) {
-    const builder = new ZqBuilder(q, name);
+async function buildField(q, name, hpp_out, element_hpp_out) {
+    const builder = new ZqBuilder(q, name, hpp_out, element_hpp_out);
 
     let asm = await renderFile(path.join(__dirname, "fr.asm.ejs"), builder);
     const cpp = await renderFile(path.join(__dirname, "fr.cpp.ejs"), builder);
@@ -76,7 +78,7 @@ if (runningAsScript) {
     const cRawGenericFileName =  (argv.orawgenc) ? argv.orawgenc : argv.name.toLowerCase() + "_raw_generic.cpp";
     const sRawArm64FileName =  (argv.oarm64s) ? argv.oarm64s : argv.name.toLowerCase() + "_raw_arm64.s";
 
-    buildField(q, argv.name).then( (res) => {
+    buildField(q, argv.name, hFileName, hElementFileName).then( (res) => {
         fs.writeFileSync(asmFileName, res.asm, "utf8");
         fs.writeFileSync(hFileName, res.hpp, "utf8");
         fs.writeFileSync(cFileName, res.cpp, "utf8");
