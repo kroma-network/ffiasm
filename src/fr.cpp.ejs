@@ -53,9 +53,9 @@ bool <%=name%>_init() {
     return true;
 }
 
-void <%=name%>_str2element(P<%=name%>Element pE, char const *s) {
+void <%=name%>_str2element(P<%=name%>Element pE, char const *s, int base) {
     mpz_t mr;
-    mpz_init_set_str(mr, s, 10);
+    mpz_init_set_str(mr, s, base);
     mpz_fdiv_r(mr, mr, q);
     <%=name%>_fromMpz(pE, mr);
     mpz_clear(mr);
